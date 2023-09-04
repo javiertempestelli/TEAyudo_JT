@@ -12,12 +12,15 @@ namespace TEAyudo_JT;
         public string Domicilio { get; set; }
         public int Edad {get; set;}
         public int TipoUsuarioId { get; set; }
+        public bool esTutor { get; set; }
+        public bool esAcompanante { get; set; }
+        public bool esPaciente { get; set; }
         public int EstadoUsuario { get; set; }
 
 
 
-    public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
-    public ICollection<TipoUsuario> TiposDeUsuario { get; set; }
+        public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
+        public ICollection<ChatMensaje> ChatMensajes { get; set;}
 }
 
 

@@ -1,6 +1,6 @@
 ﻿using System;
 namespace TEAyudo_JT;
-public class Tutor
+public class Tutor : Usuario
 {
     public int TutorId { get; set; }
     public int PacienteId { get; set; }
@@ -19,7 +19,6 @@ public class Tutor
 
 
     public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
-    public ICollection<TipoUsuario> TiposDeUsuario { get; set; }
 
     public ICollection<ChatConversacion> ChatConversaciones { get; set; }
 

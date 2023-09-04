@@ -17,7 +17,6 @@ public class Acompanante
 
 
     public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
-    public ICollection<TipoUsuario> TiposDeUsuario { get; set; }
 
     public int ObraSocialId { get; set; }
 	public ICollection <ObraSocial> ObrasSociales { get; set; }
