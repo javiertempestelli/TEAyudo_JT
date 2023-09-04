@@ -12,8 +12,8 @@ using TEAyudo_JT;
 namespace TEAyudo_JT.Migrations
 {
     [DbContext(typeof(TEAyudoContext))]
-    [Migration("20230904192754_Database")]
-    partial class Database
+    [Migration("20230904193200_DataRelations")]
+    partial class DataRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
