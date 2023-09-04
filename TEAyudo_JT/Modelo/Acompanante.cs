@@ -12,11 +12,8 @@ public class Acompanante
     public string Domicilio { get; set; }
     public int Edad { get; set; }
     public int TipoUsuarioId { get; set; }
-    public int EstadoUsuario { get; set; }
+    public EstadoUsuario EstadoUsuario { get;set; }
 
-
-
-    public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
     public ICollection<TipoUsuario> TiposDeUsuario { get; set; }
 
     public int ObraSocialId { get; set; }

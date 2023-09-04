@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TEAyudo_JT.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDBInitial : Migration
+    public partial class CreateDBTEAyudo2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
