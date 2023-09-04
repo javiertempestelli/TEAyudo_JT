@@ -1,5 +1,4 @@
-﻿using System;
-namespace TEAyudo_JT;
+﻿namespace TEAyudo_JT;
 public class ChatMensaje
 {
     public int ChatMensajeId { get; set; }

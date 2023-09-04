@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net.Sockets;
 
 namespace TEAyudo_JT;
-public class TEAyudoContext :DbContext
+public class TEAyudoContext : DbContext
 {
     public DbSet<Acompanante> Acompanantes { get; set; }
     public DbSet<DisponibilidadHoraria> DisponibilidadHorarias { get; set; }
@@ -15,7 +12,7 @@ public class TEAyudoContext :DbContext
     public DbSet<Postulacion> Postulaciones { get; set; }
     public DbSet<TipoUsuario> TiposDeUsuario { get; set; }
     public DbSet<Tutor> Tutores { get; set; }
- //   public DbSet<Usuario> Usuarios { get; set; }
+    //   public DbSet<Usuario> Usuarios { get; set; }
 
     public DbSet<ChatConversacion> ChatConversaciones { get; set; }
     public DbSet<ChatMensaje> ChatMensaje { get; set; }
@@ -30,7 +27,7 @@ public class TEAyudoContext :DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-//        optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=TEAyudo_JT;Trusted_Connection=True;TrustServerCertificate=True");
+        //        optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=TEAyudo_JT;Trusted_Connection=True;TrustServerCertificate=True");
         optionsBuilder.UseSqlServer("Server=localhost;Database=TEAyudo_JT;Trusted_Connection=True;TrustServerCertificate=True");
     }
 
