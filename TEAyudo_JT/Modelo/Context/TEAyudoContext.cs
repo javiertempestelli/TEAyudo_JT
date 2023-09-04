@@ -15,12 +15,15 @@ public class TEAyudoContext :DbContext
     public DbSet<Postulacion> Postulaciones { get; set; }
     public DbSet<TipoUsuario> TiposDeUsuario { get; set; }
     public DbSet<Tutor> Tutores { get; set; }
-    public DbSet<Usuario> Usuarios { get; set; }
+ //   public DbSet<Usuario> Usuarios { get; set; }
 
+    public DbSet<ChatConversacion> ChatConversaciones { get; set; }
+    public DbSet<ChatMensaje> ChatMensaje { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //// Configuraciones de modelos y relaciones
+
 
     }
 
