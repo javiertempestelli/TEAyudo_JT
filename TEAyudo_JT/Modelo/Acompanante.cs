@@ -29,4 +29,6 @@ public class Acompanante
 	public ICollection<Especialidad> Especialidades { get; set; }
 	public string Experiencia { get; set; }
 
+    public ICollection<ChatConversacion> ChatConversaciones { get;set; }
+
 }

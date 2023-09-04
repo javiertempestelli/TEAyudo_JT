@@ -7,4 +7,5 @@ public class ChatMensaje
     public int RemitenteId { get; set; }
     public string Contenido { get; set; }
     public DateTime FechaEnvio { get; set; }
+    public ChatConversacion ChatConversacion { get; set; }
 }
