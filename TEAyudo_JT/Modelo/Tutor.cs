@@ -21,4 +21,6 @@ public class Tutor
     public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
     public ICollection<TipoUsuario> TiposDeUsuario { get; set; }
 
+    public ICollection<ChatConversacion> ChatConversaciones { get; set; }
+
 }

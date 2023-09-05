@@ -22,7 +22,22 @@ public class TEAyudoContext :DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         //// Configuraciones de modelos y relaciones
+        modelBuilder.Entity<ChatConversacion>()
+          .HasMany(c => c.ChatMensajes)
+          .WithOne(m => m.ChatConversacion)
+          .HasForeignKey(m => m.ChatConversacionId);
+
+        modelBuilder.Entity<ChatConversacion>()
+          .HasOne(c => c.Tutor)
+          .WithMany(m => m.ChatConversaciones)
+          .HasForeignKey(m => m.ChatConversacionId);
+
+        modelBuilder.Entity<ChatConversacion>()
+          .HasOne(c => c.Acompanante)
+          .WithMany(m => m.ChatConversaciones)
+          .HasForeignKey(m => m.ChatConversacionId);
 
 
     }
