@@ -30,7 +30,7 @@ public class TEAyudoContext :DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=TEAyudo_JT;Trusted_Connection=True;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("Server=localhost;Database=TEAyudo_JT;Trusted_Connection=True;TrustServerCertificate=True");
     }
 
 }
