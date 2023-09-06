@@ -11,6 +11,4 @@ public class ChatConversacion
     public ICollection<ChatMensaje> ChatMensajes { get; set; }
     public ICollection<Tutor> Tutores { get; set; }
     public ICollection<Acompanante> Acompanantes { get; set; }
-    public Tutor Tutor { get; set; }
-    public Acompanante Acompanante { get; set; }
 }

@@ -12,8 +12,8 @@ using TEAyudo_JT;
 namespace TEAyudo_JT.Migrations
 {
     [DbContext(typeof(TEAyudoContext))]
-    [Migration("20230904023453_CreateDB_diseno3")]
-    partial class CreateDB_diseno3
+    [Migration("20230906020303_gggg")]
+    partial class gggg
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,19 +25,19 @@ namespace TEAyudo_JT.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AcompananteObraSocial", b =>
+            modelBuilder.Entity("AcompananteChatConversacion", b =>
                 {
                     b.Property<int>("AcompanantesAcompananteId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ObrasSocialesObraSocialId")
+                    b.Property<int>("ChatConversacionesChatConversacionId")
                         .HasColumnType("int");
 
-                    b.HasKey("AcompanantesAcompananteId", "ObrasSocialesObraSocialId");
+                    b.HasKey("AcompanantesAcompananteId", "ChatConversacionesChatConversacionId");
 
-                    b.HasIndex("ObrasSocialesObraSocialId");
+                    b.HasIndex("ChatConversacionesChatConversacionId");
 
-                    b.ToTable("AcompananteObraSocial");
+                    b.ToTable("AcompananteChatConversacion");
                 });
 
             modelBuilder.Entity("ChatConversacion", b =>
@@ -62,19 +62,19 @@ namespace TEAyudo_JT.Migrations
                     b.ToTable("ChatConversaciones");
                 });
 
-            modelBuilder.Entity("EstadoPostulacionPostulacion", b =>
+            modelBuilder.Entity("ChatConversacionTutor", b =>
                 {
-                    b.Property<int>("EstadosDePostulacionEstadoPostulacionId")
+                    b.Property<int>("ChatConversacionesChatConversacionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostulacionesPostulacionId")
+                    b.Property<int>("TutoresTutorId")
                         .HasColumnType("int");
 
-                    b.HasKey("EstadosDePostulacionEstadoPostulacionId", "PostulacionesPostulacionId");
+                    b.HasKey("ChatConversacionesChatConversacionId", "TutoresTutorId");
 
-                    b.HasIndex("PostulacionesPostulacionId");
+                    b.HasIndex("TutoresTutorId");
 
-                    b.ToTable("EstadoPostulacionPostulacion");
+                    b.ToTable("ChatConversacionTutor");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Acompanante", b =>
@@ -89,9 +89,6 @@ namespace TEAyudo_JT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ChatConversacionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Contacto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +100,9 @@ namespace TEAyudo_JT.Migrations
                     b.Property<string>("CorreoElectronico")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DisponibilidadHorariaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Documentacion")
                         .IsRequired()
@@ -118,7 +118,7 @@ namespace TEAyudo_JT.Migrations
                     b.Property<int>("Especialidad")
                         .HasColumnType("int");
 
-                    b.Property<int>("EstadoUsuario")
+                    b.Property<int>("EstadoUsuarioId")
                         .HasColumnType("int");
 
                     b.Property<string>("Experiencia")
@@ -136,15 +136,17 @@ namespace TEAyudo_JT.Migrations
                     b.Property<int>("ObraSocialId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostulacionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TipoUsuarioId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ZonaLaboral")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("AcompananteId");
 
-                    b.HasIndex("ChatConversacionId");
+                    b.HasIndex("EstadoUsuarioId")
+                        .IsUnique();
 
                     b.ToTable("Acompanantes");
                 });
@@ -180,10 +182,10 @@ namespace TEAyudo_JT.Migrations
             modelBuilder.Entity("TEAyudo_JT.DisponibilidadHoraria", b =>
                 {
                     b.Property<int>("DisponibilidadHorariaId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DisponibilidadHorariaId"));
+                    b.Property<int>("AcompananteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("HorarioFin")
                         .HasColumnType("datetime2");
@@ -191,12 +193,7 @@ namespace TEAyudo_JT.Migrations
                     b.Property<DateTime>("HorarioInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PostulacionId")
-                        .HasColumnType("int");
-
                     b.HasKey("DisponibilidadHorariaId");
-
-                    b.HasIndex("PostulacionId");
 
                     b.ToTable("DisponibilidadHorarias");
                 });
@@ -209,7 +206,7 @@ namespace TEAyudo_JT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EspecialidadId"));
 
-                    b.Property<int?>("AcompananteId")
+                    b.Property<int>("AcompananteId")
                         .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
@@ -218,24 +215,25 @@ namespace TEAyudo_JT.Migrations
 
                     b.HasKey("EspecialidadId");
 
-                    b.HasIndex("AcompananteId");
-
                     b.ToTable("Especialidades");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.EstadoPostulacion", b =>
+            modelBuilder.Entity("TEAyudo_JT.EstadoPropuesta", b =>
                 {
-                    b.Property<int>("EstadoPostulacionId")
+                    b.Property<int>("EstadoPropuestaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadoPostulacionId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadoPropuestaId"));
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EstadoPostulacionId");
+                    b.Property<int>("PropuestaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EstadoPropuestaId");
 
                     b.ToTable("EstadoPostulaciones");
                 });
@@ -248,23 +246,71 @@ namespace TEAyudo_JT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadoUsuarioId"));
 
-                    b.Property<int?>("AcompananteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TutorId")
+                    b.HasKey("EstadoUsuarioId");
+
+                    b.ToTable("EstadoUsuario");
+                });
+
+            modelBuilder.Entity("TEAyudo_JT.Modelo.AcompananteEspecialidad", b =>
+                {
+                    b.Property<int>("AcompananteId")
                         .HasColumnType("int");
 
-                    b.HasKey("EstadoUsuarioId");
+                    b.Property<int>("EspecialidadId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AcompananteId", "EspecialidadId");
+
+                    b.HasIndex("EspecialidadId");
+
+                    b.ToTable("AcompananteEspecialidad");
+                });
+
+            modelBuilder.Entity("TEAyudo_JT.Modelo.AcompananteObraSocial", b =>
+                {
+                    b.Property<int>("AcompananteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ObrasocialId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AcompananteId", "ObrasocialId");
+
+                    b.HasIndex("ObrasocialId");
+
+                    b.ToTable("AcompananteObraSocial");
+                });
+
+            modelBuilder.Entity("TEAyudo_JT.Modelo.Propuesta", b =>
+                {
+                    b.Property<int>("PropuestaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PropuestaId"));
+
+                    b.Property<int>("AcompananteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EstadoPropuestaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TutorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PropuestaId");
 
                     b.HasIndex("AcompananteId");
 
+                    b.HasIndex("EstadoPropuestaId");
+
                     b.HasIndex("TutorId");
 
-                    b.ToTable("EstadoUsuario");
+                    b.ToTable("Propuesta");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.ObraSocial", b =>
@@ -318,7 +364,7 @@ namespace TEAyudo_JT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TutorId")
+                    b.Property<int>("TutorId")
                         .HasColumnType("int");
 
                     b.HasKey("PacienteId");
@@ -326,78 +372,6 @@ namespace TEAyudo_JT.Migrations
                     b.HasIndex("TutorId");
 
                     b.ToTable("Pacientes");
-                });
-
-            modelBuilder.Entity("TEAyudo_JT.Postulacion", b =>
-                {
-                    b.Property<int>("PostulacionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostulacionId"));
-
-                    b.Property<int>("AcompananteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DisponibilidadHorariaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EspecliadadId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EstadoPostulacionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ObraSocialId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ubicacion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PostulacionId");
-
-                    b.HasIndex("AcompananteId");
-
-                    b.ToTable("Postulaciones");
-                });
-
-            modelBuilder.Entity("TEAyudo_JT.TipoUsuario", b =>
-                {
-                    b.Property<int>("TipoUsuarioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoUsuarioId"));
-
-                    b.Property<int?>("AcompananteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TutorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TipoUsuarioId");
-
-                    b.HasIndex("AcompananteId");
-
-                    b.HasIndex("TutorId");
-
-                    b.ToTable("TiposDeUsuario");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Tutor", b =>
@@ -416,9 +390,6 @@ namespace TEAyudo_JT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ChatConversacionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Contrasena")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -434,7 +405,7 @@ namespace TEAyudo_JT.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
-                    b.Property<int>("EstadoUsuario")
+                    b.Property<int>("EstadoUsuarioId")
                         .HasColumnType("int");
 
                     b.Property<string>("FotoPerfil")
@@ -448,17 +419,15 @@ namespace TEAyudo_JT.Migrations
                     b.Property<int>("PacienteId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoUsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("TutorId");
 
-                    b.HasIndex("ChatConversacionId");
+                    b.HasIndex("EstadoUsuarioId")
+                        .IsUnique();
 
                     b.ToTable("Tutores");
                 });
 
-            modelBuilder.Entity("AcompananteObraSocial", b =>
+            modelBuilder.Entity("AcompananteChatConversacion", b =>
                 {
                     b.HasOne("TEAyudo_JT.Acompanante", null)
                         .WithMany()
@@ -466,137 +435,179 @@ namespace TEAyudo_JT.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TEAyudo_JT.ObraSocial", null)
+                    b.HasOne("ChatConversacion", null)
                         .WithMany()
-                        .HasForeignKey("ObrasSocialesObraSocialId")
+                        .HasForeignKey("ChatConversacionesChatConversacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EstadoPostulacionPostulacion", b =>
+            modelBuilder.Entity("ChatConversacionTutor", b =>
                 {
-                    b.HasOne("TEAyudo_JT.EstadoPostulacion", null)
+                    b.HasOne("ChatConversacion", null)
                         .WithMany()
-                        .HasForeignKey("EstadosDePostulacionEstadoPostulacionId")
+                        .HasForeignKey("ChatConversacionesChatConversacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TEAyudo_JT.Postulacion", null)
+                    b.HasOne("TEAyudo_JT.Tutor", null)
                         .WithMany()
-                        .HasForeignKey("PostulacionesPostulacionId")
+                        .HasForeignKey("TutoresTutorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Acompanante", b =>
                 {
-                    b.HasOne("ChatConversacion", null)
-                        .WithMany("Acompanantes")
-                        .HasForeignKey("ChatConversacionId");
+                    b.HasOne("TEAyudo_JT.EstadoUsuario", "EstadoUsuario")
+                        .WithOne("Acompanante")
+                        .HasForeignKey("TEAyudo_JT.Acompanante", "EstadoUsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstadoUsuario");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.ChatMensaje", b =>
                 {
-                    b.HasOne("ChatConversacion", null)
+                    b.HasOne("ChatConversacion", "ChatConversacion")
                         .WithMany("ChatMensajes")
                         .HasForeignKey("ChatConversacionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ChatConversacion");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.DisponibilidadHoraria", b =>
                 {
-                    b.HasOne("TEAyudo_JT.Postulacion", null)
-                        .WithMany("DisponibilidadesHoraria")
-                        .HasForeignKey("PostulacionId")
+                    b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
+                        .WithMany("DisponibilidadesHorarias")
+                        .HasForeignKey("DisponibilidadHorariaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Acompanante");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.Especialidad", b =>
+            modelBuilder.Entity("TEAyudo_JT.Modelo.AcompananteEspecialidad", b =>
                 {
-                    b.HasOne("TEAyudo_JT.Acompanante", null)
-                        .WithMany("Especialidades")
-                        .HasForeignKey("AcompananteId");
+                    b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
+                        .WithMany()
+                        .HasForeignKey("AcompananteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TEAyudo_JT.Especialidad", "Especialidad")
+                        .WithMany()
+                        .HasForeignKey("EspecialidadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Acompanante");
+
+                    b.Navigation("Especialidad");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.EstadoUsuario", b =>
+            modelBuilder.Entity("TEAyudo_JT.Modelo.AcompananteObraSocial", b =>
                 {
-                    b.HasOne("TEAyudo_JT.Acompanante", null)
-                        .WithMany("EstadosDeUsuario")
-                        .HasForeignKey("AcompananteId");
+                    b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
+                        .WithMany()
+                        .HasForeignKey("AcompananteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("TEAyudo_JT.Tutor", null)
-                        .WithMany("EstadosDeUsuario")
-                        .HasForeignKey("TutorId");
+                    b.HasOne("TEAyudo_JT.ObraSocial", "ObraSocial")
+                        .WithMany()
+                        .HasForeignKey("ObrasocialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Acompanante");
+
+                    b.Navigation("ObraSocial");
+                });
+
+            modelBuilder.Entity("TEAyudo_JT.Modelo.Propuesta", b =>
+                {
+                    b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
+                        .WithMany("Propuestas")
+                        .HasForeignKey("AcompananteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TEAyudo_JT.EstadoPropuesta", "EstadoPropuesta")
+                        .WithMany("Propuestas")
+                        .HasForeignKey("EstadoPropuestaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TEAyudo_JT.Tutor", "Tutor")
+                        .WithMany("Propuestas")
+                        .HasForeignKey("TutorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Acompanante");
+
+                    b.Navigation("EstadoPropuesta");
+
+                    b.Navigation("Tutor");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Paciente", b =>
                 {
-                    b.HasOne("TEAyudo_JT.Tutor", null)
+                    b.HasOne("TEAyudo_JT.Tutor", "Tutor")
                         .WithMany("Pacientes")
-                        .HasForeignKey("TutorId");
-                });
-
-            modelBuilder.Entity("TEAyudo_JT.Postulacion", b =>
-                {
-                    b.HasOne("TEAyudo_JT.Acompanante", null)
-                        .WithMany("Postulaciones")
-                        .HasForeignKey("AcompananteId")
+                        .HasForeignKey("TutorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("TEAyudo_JT.TipoUsuario", b =>
-                {
-                    b.HasOne("TEAyudo_JT.Acompanante", null)
-                        .WithMany("TiposDeUsuario")
-                        .HasForeignKey("AcompananteId");
-
-                    b.HasOne("TEAyudo_JT.Tutor", null)
-                        .WithMany("TiposDeUsuario")
-                        .HasForeignKey("TutorId");
+                    b.Navigation("Tutor");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Tutor", b =>
                 {
-                    b.HasOne("ChatConversacion", null)
-                        .WithMany("Tutores")
-                        .HasForeignKey("ChatConversacionId");
+                    b.HasOne("TEAyudo_JT.EstadoUsuario", "EstadoUsuario")
+                        .WithOne("Tutor")
+                        .HasForeignKey("TEAyudo_JT.Tutor", "EstadoUsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstadoUsuario");
                 });
 
             modelBuilder.Entity("ChatConversacion", b =>
                 {
-                    b.Navigation("Acompanantes");
-
                     b.Navigation("ChatMensajes");
-
-                    b.Navigation("Tutores");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Acompanante", b =>
                 {
-                    b.Navigation("Especialidades");
+                    b.Navigation("DisponibilidadesHorarias");
 
-                    b.Navigation("EstadosDeUsuario");
-
-                    b.Navigation("Postulaciones");
-
-                    b.Navigation("TiposDeUsuario");
+                    b.Navigation("Propuestas");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.Postulacion", b =>
+            modelBuilder.Entity("TEAyudo_JT.EstadoPropuesta", b =>
                 {
-                    b.Navigation("DisponibilidadesHoraria");
+                    b.Navigation("Propuestas");
+                });
+
+            modelBuilder.Entity("TEAyudo_JT.EstadoUsuario", b =>
+                {
+                    b.Navigation("Acompanante")
+                        .IsRequired();
+
+                    b.Navigation("Tutor")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Tutor", b =>
                 {
-                    b.Navigation("EstadosDeUsuario");
-
                     b.Navigation("Pacientes");
 
-                    b.Navigation("TiposDeUsuario");
+                    b.Navigation("Propuestas");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net.Sockets;
+using TEAyudo_JT.Modelo;
 
 namespace TEAyudo_JT;
 public class TEAyudoContext :DbContext
@@ -9,11 +10,10 @@ public class TEAyudoContext :DbContext
     public DbSet<Acompanante> Acompanantes { get; set; }
     public DbSet<DisponibilidadHoraria> DisponibilidadHorarias { get; set; }
     public DbSet<Especialidad> Especialidades { get; set; }
-    public DbSet<EstadoPostulacion> EstadoPostulaciones { get; set; }
+    public DbSet<EstadoPropuesta> EstadoPostulaciones { get; set; }
     public DbSet<ObraSocial> ObrasSociales { get; set; }
     public DbSet<Paciente> Pacientes { get; set; }
-    public DbSet<Postulacion> Postulaciones { get; set; }
-    public DbSet<TipoUsuario> TiposDeUsuario { get; set; }
+ //   public DbSet<TipoUsuario> TiposDeUsuario { get; set; }
     public DbSet<Tutor> Tutores { get; set; }
  //   public DbSet<Usuario> Usuarios { get; set; }
 
@@ -22,22 +22,92 @@ public class TEAyudoContext :DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //      RELACION UNO A MUCHOS
+        modelBuilder.Entity<Tutor>()
+            .HasMany(t => t.Pacientes)
+            .WithOne(p => p.Tutor)
+            .HasForeignKey(p => p.TutorId);
 
-        //// Configuraciones de modelos y relaciones
-        modelBuilder.Entity<ChatConversacion>()
-          .HasMany(c => c.ChatMensajes)
-          .WithOne(m => m.ChatConversacion)
-          .HasForeignKey(m => m.ChatConversacionId);
+        modelBuilder.Entity<EstadoUsuario>()
+            .HasOne(e => e.Tutor)
+            .WithOne(t => t.EstadoUsuario)
+            .HasForeignKey<Tutor>(t => t.EstadoUsuarioId);
 
-        modelBuilder.Entity<ChatConversacion>()
-          .HasOne(c => c.Tutor)
-          .WithMany(m => m.ChatConversaciones)
-          .HasForeignKey(m => m.ChatConversacionId);
+        modelBuilder.Entity<Propuesta>()
+            .HasOne(p => p.Tutor)
+            .WithMany(t => t.Propuestas)
+            .HasForeignKey(p => p.TutorId)
+            .OnDelete(DeleteBehavior.Restrict); // Configura ON DELETE NO ACTION
 
-        modelBuilder.Entity<ChatConversacion>()
-          .HasOne(c => c.Acompanante)
-          .WithMany(m => m.ChatConversaciones)
-          .HasForeignKey(m => m.ChatConversacionId);
+
+        //      RELACION UNO A UNO
+        //modelBuilder.Entity<ENTIDAD1>()
+        //    .HasOne(u => u.ENTIDAD2)
+        //    .WithOne(p => p.ENTIDAD1)
+        //    .HasForeignKey<ENTIDAD1>(p => p.ENTIDAD1_ID);
+
+        modelBuilder.Entity<EstadoUsuario>()
+            .HasOne(e => e.Acompanante)
+            .WithOne(t => t.EstadoUsuario)
+            .HasForeignKey<Acompanante>(t => t.EstadoUsuarioId);
+
+
+        //RELACION UNO A MUCHOS
+        //modelBuilder.Entity<ENTIDAD1>()
+        //.HasMany(a => a.ENTIDAD2S)
+        //.WithOne(l => l.ENTIDAD1)
+        //.HasForeignKey(l => l.ENTIDAD1Id);
+
+        //      RELACION UNO A MUCHOS
+        //      Un acompañante puede tener mas de una disponibilidad horaria
+        modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.DisponibilidadesHorarias)
+            .WithOne(d => d.Acompanante)
+            .HasForeignKey(d => d.DisponibilidadHorariaId);
+
+        //RELACION MUCHOS A MUCHOS
+        //modelBuilder.Entity<ENTIDAD1>()
+        //    .HasMany(e => e.ENTIDAD2S)
+        //    .WithMany(c => c.ENTIDAD2S)
+        //    .UsingEntity<ENTIDAD1ENTIDAD2>(
+        //j => j.HasOne(ic => ic.ENTIDAD2).WithMany(),
+        //j => j.HasOne(ic => ic.ENTIDAD1S).WithMany()
+
+        modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.Especialidades)
+            .WithMany(e => e.Acompanantes)
+            .UsingEntity<AcompananteEspecialidad>(
+                j => j.HasOne(ae => ae.Especialidad).WithMany(),
+                j => j.HasOne(ae => ae.Acompanante).WithMany());
+
+        modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.ObrasSociales)
+            .WithMany(e => e.Acompanantes)
+            .UsingEntity<AcompananteObraSocial>(
+                j => j.HasOne(ae => ae.ObraSocial).WithMany(),
+                j => j.HasOne(ae => ae.Acompanante).WithMany());
+
+        modelBuilder.Entity<Propuesta>()
+            .HasOne(p => p.Acompanante)
+            .WithMany(a => a.Propuestas)
+            .HasForeignKey(p => p.AcompananteId);
+
+
+
+        //RELACION UNO A MUCHOS
+        //modelBuilder.Entity<ENTIDAD1>()
+        //.HasMany(a => a.ENTIDAD2S)
+        //.WithOne(l => l.ENTIDAD1)
+        //.HasForeignKey(l => l.ENTIDAD1Id);
+
+        //      RELACION UNO A UNO
+        //modelBuilder.Entity<ENTIDAD1>()
+        //    .HasOne(u => u.ENTIDAD2)
+        //    .WithOne(p => p.ENTIDAD1)
+        //    .HasForeignKey<ENTIDAD1>(p => p.ENTIDAD1_ID);
+
+
+
 
 
     }

@@ -8,5 +8,7 @@
         public int Edad { get; set; }
         public string DiagnosticoTEA { get; set; }
         public string Sexo { get; set; }
+        public int TutorId { get; set; }
+        public Tutor Tutor { get; set; }
     }
 }

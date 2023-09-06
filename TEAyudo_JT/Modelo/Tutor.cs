@@ -1,4 +1,6 @@
 ﻿using System;
+using TEAyudo_JT.Modelo;
+
 namespace TEAyudo_JT;
 public class Tutor
 {
@@ -12,15 +14,11 @@ public class Tutor
     public string Contrasena { get; set; }
     public string FotoPerfil { get; set; }
     public string Domicilio { get; set; }
+
     public int Edad { get; set; }
-    public int TipoUsuarioId { get; set; }
-    public int EstadoUsuario { get; set; }
-
-
-
-    public ICollection<EstadoUsuario> EstadosDeUsuario { get; set; }
-    public ICollection<TipoUsuario> TiposDeUsuario { get; set; }
-
+    public int EstadoUsuarioId { get; set; }
+    public EstadoUsuario EstadoUsuario { get; set; }
+    public ICollection<Propuesta> Propuestas { get; set; }
     public ICollection<ChatConversacion> ChatConversaciones { get; set; }
 
 }
