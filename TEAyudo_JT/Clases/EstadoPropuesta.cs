@@ -1,5 +1,5 @@
 ﻿using System;
-using TEAyudo_JT.Modelo;
+using TEAyudo_JT;
 
 namespace TEAyudo_JT;
 public class EstadoPropuesta

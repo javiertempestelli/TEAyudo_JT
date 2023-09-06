@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net.Sockets;
-using TEAyudo_JT.Modelo;
 
 namespace TEAyudo_JT;
 public class TEAyudoContext :DbContext
@@ -13,12 +9,8 @@ public class TEAyudoContext :DbContext
     public DbSet<EstadoPropuesta> EstadoPostulaciones { get; set; }
     public DbSet<ObraSocial> ObrasSociales { get; set; }
     public DbSet<Paciente> Pacientes { get; set; }
- //   public DbSet<TipoUsuario> TiposDeUsuario { get; set; }
     public DbSet<Tutor> Tutores { get; set; }
- //   public DbSet<Usuario> Usuarios { get; set; }
 
-    public DbSet<ChatConversacion> ChatConversaciones { get; set; }
-    public DbSet<ChatMensaje> ChatMensaje { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,10 +52,7 @@ public class TEAyudoContext :DbContext
 
         //      RELACION UNO A MUCHOS
         //      Un acompañante puede tener mas de una disponibilidad horaria
-        modelBuilder.Entity<Acompanante>()
-            .HasMany(a => a.DisponibilidadesHorarias)
-            .WithOne(d => d.Acompanante)
-            .HasForeignKey(d => d.DisponibilidadHorariaId);
+
 
         //RELACION MUCHOS A MUCHOS
         //modelBuilder.Entity<ENTIDAD1>()
@@ -74,6 +63,14 @@ public class TEAyudoContext :DbContext
         //j => j.HasOne(ic => ic.ENTIDAD1S).WithMany()
 
         modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.DisponibilidadesHorarias)
+            .WithMany(d => d.Acompanantes)
+            .UsingEntity<AcompananteDisponibilidadHoraria>(
+                j => j.HasOne(adh => adh.DisponibilidadHoraria).WithMany(),
+                j => j.HasOne(adh => adh.Acompanante).WithMany()
+            );
+
+        modelBuilder.Entity<Acompanante>()
             .HasMany(a => a.Especialidades)
             .WithMany(e => e.Acompanantes)
             .UsingEntity<AcompananteEspecialidad>(
@@ -82,10 +79,10 @@ public class TEAyudoContext :DbContext
 
         modelBuilder.Entity<Acompanante>()
             .HasMany(a => a.ObrasSociales)
-            .WithMany(e => e.Acompanantes)
+            .WithMany(os => os.Acompanantes)
             .UsingEntity<AcompananteObraSocial>(
-                j => j.HasOne(ae => ae.ObraSocial).WithMany(),
-                j => j.HasOne(ae => ae.Acompanante).WithMany());
+                j => j.HasOne(aos => aos.ObraSocial).WithMany(),
+                j => j.HasOne(aos => aos.Acompanante).WithMany());
 
         modelBuilder.Entity<Propuesta>()
             .HasOne(p => p.Acompanante)

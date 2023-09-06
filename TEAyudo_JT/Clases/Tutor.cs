@@ -1,5 +1,5 @@
 ﻿using System;
-using TEAyudo_JT.Modelo;
+using TEAyudo_JT;
 
 namespace TEAyudo_JT;
 public class Tutor
@@ -19,6 +19,5 @@ public class Tutor
     public int EstadoUsuarioId { get; set; }
     public EstadoUsuario EstadoUsuario { get; set; }
     public ICollection<Propuesta> Propuestas { get; set; }
-    public ICollection<ChatConversacion> ChatConversaciones { get; set; }
 
 }

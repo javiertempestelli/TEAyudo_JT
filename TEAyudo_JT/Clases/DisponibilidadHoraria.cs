@@ -5,8 +5,9 @@
         public int DisponibilidadHorariaId { get; set; }
         public DateTime HorarioInicio { get; set; }
         public DateTime HorarioFin { get; set; }
+
         public int AcompananteId { get; set; }
-        public Acompanante Acompanante { get; set; }
+        public ICollection<Acompanante> Acompanantes { get; set; }
 
     }
 }
