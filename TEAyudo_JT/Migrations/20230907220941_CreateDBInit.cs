@@ -12,39 +12,6 @@ namespace TEAyudo_JT.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DiaDisponible",
-                columns: table => new
-                {
-                    DiaDisponibleId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Lunes = table.Column<bool>(type: "bit", nullable: false),
-                    Martes = table.Column<bool>(type: "bit", nullable: false),
-                    Miercoles = table.Column<bool>(type: "bit", nullable: false),
-                    Jueves = table.Column<bool>(type: "bit", nullable: false),
-                    Viernes = table.Column<bool>(type: "bit", nullable: false),
-                    Sabado = table.Column<bool>(type: "bit", nullable: false),
-                    Domingo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DiaDisponible", x => x.DiaDisponibleId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DisponibilidadHorarias",
-                columns: table => new
-                {
-                    DisponibilidadHorariaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HorarioInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HorarioFin = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DisponibilidadHorarias", x => x.DisponibilidadHorariaId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Especialidades",
                 columns: table => new
                 {
@@ -130,8 +97,7 @@ namespace TEAyudo_JT.Migrations
                     Documentacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EspecialidadId = table.Column<int>(type: "int", nullable: false),
                     Experiencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisponibilidadHorariaId = table.Column<int>(type: "int", nullable: false),
-                    DiaDisponibleId = table.Column<int>(type: "int", nullable: false)
+                    DisponibilidadSemanalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,54 +140,6 @@ namespace TEAyudo_JT.Migrations
                         column: x => x.UsuarioId,
                         principalTable: "Usuario",
                         principalColumn: "UsuarioId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AcompananteDiasDisponible",
-                columns: table => new
-                {
-                    AcompananteId = table.Column<int>(type: "int", nullable: false),
-                    DiaDisponibleId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AcompananteDiasDisponible", x => new { x.AcompananteId, x.DiaDisponibleId });
-                    table.ForeignKey(
-                        name: "FK_AcompananteDiasDisponible_Acompanantes_AcompananteId",
-                        column: x => x.AcompananteId,
-                        principalTable: "Acompanantes",
-                        principalColumn: "AcompananteId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AcompananteDiasDisponible_DiaDisponible_DiaDisponibleId",
-                        column: x => x.DiaDisponibleId,
-                        principalTable: "DiaDisponible",
-                        principalColumn: "DiaDisponibleId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AcompananteDisponibilidadHoraria",
-                columns: table => new
-                {
-                    AcompananteId = table.Column<int>(type: "int", nullable: false),
-                    DisponibilidadHorariaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AcompananteDisponibilidadHoraria", x => new { x.AcompananteId, x.DisponibilidadHorariaId });
-                    table.ForeignKey(
-                        name: "FK_AcompananteDisponibilidadHoraria_Acompanantes_AcompananteId",
-                        column: x => x.AcompananteId,
-                        principalTable: "Acompanantes",
-                        principalColumn: "AcompananteId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AcompananteDisponibilidadHoraria_DisponibilidadHorarias_DisponibilidadHorariaId",
-                        column: x => x.DisponibilidadHorariaId,
-                        principalTable: "DisponibilidadHorarias",
-                        principalColumn: "DisponibilidadHorariaId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -271,6 +189,34 @@ namespace TEAyudo_JT.Migrations
                         principalTable: "ObrasSociales",
                         principalColumn: "ObraSocialId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DisponibilidadSemanal",
+                columns: table => new
+                {
+                    DisponibilidadSemanalId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AcompananteId = table.Column<int>(type: "int", nullable: false),
+                    Lunes = table.Column<bool>(type: "bit", nullable: false),
+                    Martes = table.Column<bool>(type: "bit", nullable: false),
+                    Miercoles = table.Column<bool>(type: "bit", nullable: false),
+                    Jueves = table.Column<bool>(type: "bit", nullable: false),
+                    Viernes = table.Column<bool>(type: "bit", nullable: false),
+                    Sabado = table.Column<bool>(type: "bit", nullable: false),
+                    Domingo = table.Column<bool>(type: "bit", nullable: false),
+                    HorarioInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HorarioFin = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisponibilidadSemanal", x => x.DisponibilidadSemanalId);
+                    table.ForeignKey(
+                        name: "FK_DisponibilidadSemanal_Acompanantes_AcompananteId",
+                        column: x => x.AcompananteId,
+                        principalTable: "Acompanantes",
+                        principalColumn: "AcompananteId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -333,16 +279,6 @@ namespace TEAyudo_JT.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AcompananteDiasDisponible_DiaDisponibleId",
-                table: "AcompananteDiasDisponible",
-                column: "DiaDisponibleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AcompananteDisponibilidadHoraria_DisponibilidadHorariaId",
-                table: "AcompananteDisponibilidadHoraria",
-                column: "DisponibilidadHorariaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AcompananteEspecialidad_EspecialidadId",
                 table: "AcompananteEspecialidad",
                 column: "EspecialidadId");
@@ -363,6 +299,11 @@ namespace TEAyudo_JT.Migrations
                 table: "Acompanantes",
                 column: "UsuarioId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisponibilidadSemanal_AcompananteId",
+                table: "DisponibilidadSemanal",
+                column: "AcompananteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pacientes_TutorId",
@@ -401,28 +342,19 @@ namespace TEAyudo_JT.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AcompananteDiasDisponible");
-
-            migrationBuilder.DropTable(
-                name: "AcompananteDisponibilidadHoraria");
-
-            migrationBuilder.DropTable(
                 name: "AcompananteEspecialidad");
 
             migrationBuilder.DropTable(
                 name: "AcompananteObraSocial");
 
             migrationBuilder.DropTable(
+                name: "DisponibilidadSemanal");
+
+            migrationBuilder.DropTable(
                 name: "Pacientes");
 
             migrationBuilder.DropTable(
                 name: "Propuesta");
-
-            migrationBuilder.DropTable(
-                name: "DiaDisponible");
-
-            migrationBuilder.DropTable(
-                name: "DisponibilidadHorarias");
 
             migrationBuilder.DropTable(
                 name: "Especialidades");

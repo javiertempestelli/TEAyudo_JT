@@ -34,10 +34,7 @@ namespace TEAyudo_JT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiaDisponibleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DisponibilidadHorariaId")
+                    b.Property<int>("DisponibilidadSemanalId")
                         .HasColumnType("int");
 
                     b.Property<string>("Documentacion")
@@ -75,21 +72,6 @@ namespace TEAyudo_JT.Migrations
                     b.ToTable("Acompanantes");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.AcompananteDisponibilidadHoraria", b =>
-                {
-                    b.Property<int>("AcompananteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DisponibilidadHorariaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AcompananteId", "DisponibilidadHorariaId");
-
-                    b.HasIndex("DisponibilidadHorariaId");
-
-                    b.ToTable("AcompananteDisponibilidadHoraria");
-                });
-
             modelBuilder.Entity("TEAyudo_JT.AcompananteEspecialidad", b =>
                 {
                     b.Property<int>("AcompananteId")
@@ -120,31 +102,25 @@ namespace TEAyudo_JT.Migrations
                     b.ToTable("AcompananteObraSocial");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.Clases.AcompananteDiasDisponible", b =>
+            modelBuilder.Entity("TEAyudo_JT.Clases.DisponibilidadSemanal", b =>
                 {
-                    b.Property<int>("AcompananteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DiaDisponibleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AcompananteId", "DiaDisponibleId");
-
-                    b.HasIndex("DiaDisponibleId");
-
-                    b.ToTable("AcompananteDiasDisponible");
-                });
-
-            modelBuilder.Entity("TEAyudo_JT.Clases.DiaDisponible", b =>
-                {
-                    b.Property<int>("DiaDisponibleId")
+                    b.Property<int>("DisponibilidadSemanalId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiaDisponibleId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DisponibilidadSemanalId"));
+
+                    b.Property<int>("AcompananteId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Domingo")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("HorarioFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("HorarioInicio")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Jueves")
                         .HasColumnType("bit");
@@ -164,9 +140,11 @@ namespace TEAyudo_JT.Migrations
                     b.Property<bool>("Viernes")
                         .HasColumnType("bit");
 
-                    b.HasKey("DiaDisponibleId");
+                    b.HasKey("DisponibilidadSemanalId");
 
-                    b.ToTable("DiaDisponible");
+                    b.HasIndex("AcompananteId");
+
+                    b.ToTable("DisponibilidadSemanal");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Clases.Usuario", b =>
@@ -207,25 +185,6 @@ namespace TEAyudo_JT.Migrations
                     b.HasKey("UsuarioId");
 
                     b.ToTable("Usuario");
-                });
-
-            modelBuilder.Entity("TEAyudo_JT.DisponibilidadHoraria", b =>
-                {
-                    b.Property<int>("DisponibilidadHorariaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DisponibilidadHorariaId"));
-
-                    b.Property<DateTime>("HorarioFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HorarioInicio")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("DisponibilidadHorariaId");
-
-                    b.ToTable("DisponibilidadHorarias");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Especialidad", b =>
@@ -420,25 +379,6 @@ namespace TEAyudo_JT.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.AcompananteDisponibilidadHoraria", b =>
-                {
-                    b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
-                        .WithMany()
-                        .HasForeignKey("AcompananteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TEAyudo_JT.DisponibilidadHoraria", "DisponibilidadHoraria")
-                        .WithMany()
-                        .HasForeignKey("DisponibilidadHorariaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Acompanante");
-
-                    b.Navigation("DisponibilidadHoraria");
-                });
-
             modelBuilder.Entity("TEAyudo_JT.AcompananteEspecialidad", b =>
                 {
                     b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
@@ -477,23 +417,15 @@ namespace TEAyudo_JT.Migrations
                     b.Navigation("ObraSocial");
                 });
 
-            modelBuilder.Entity("TEAyudo_JT.Clases.AcompananteDiasDisponible", b =>
+            modelBuilder.Entity("TEAyudo_JT.Clases.DisponibilidadSemanal", b =>
                 {
                     b.HasOne("TEAyudo_JT.Acompanante", "Acompanante")
-                        .WithMany()
+                        .WithMany("DisponibilidadesSemanales")
                         .HasForeignKey("AcompananteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TEAyudo_JT.Clases.DiaDisponible", "DiaDisponible")
-                        .WithMany()
-                        .HasForeignKey("DiaDisponibleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Acompanante");
-
-                    b.Navigation("DiaDisponible");
                 });
 
             modelBuilder.Entity("TEAyudo_JT.Paciente", b =>
@@ -555,6 +487,8 @@ namespace TEAyudo_JT.Migrations
 
             modelBuilder.Entity("TEAyudo_JT.Acompanante", b =>
                 {
+                    b.Navigation("DisponibilidadesSemanales");
+
                     b.Navigation("Propuestas");
                 });
 

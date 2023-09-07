@@ -5,7 +5,6 @@ namespace TEAyudo_JT;
 public class TEAyudoContext :DbContext
 {
     public DbSet<Acompanante> Acompanantes { get; set; }
-    public DbSet<DisponibilidadHoraria> DisponibilidadHorarias { get; set; }
     public DbSet<Especialidad> Especialidades { get; set; }
     public DbSet<EstadoPropuesta> EstadoPostulaciones { get; set; }
     public DbSet<ObraSocial> ObrasSociales { get; set; }
@@ -81,22 +80,11 @@ public class TEAyudoContext :DbContext
         //j => j.HasOne(ic => ic.ENTIDAD1S).WithMany()
 
         modelBuilder.Entity<Acompanante>()
-            .HasMany(a => a.DisponibilidadesHorarias)
-            .WithMany(d => d.Acompanantes)
-            .UsingEntity<AcompananteDisponibilidadHoraria>(
-                j => j.HasOne(adh => adh.DisponibilidadHoraria).WithMany(),
-                j => j.HasOne(adh => adh.Acompanante).WithMany()
-            );
-
-        modelBuilder.Entity<Acompanante>()
-            .HasMany(a => a.DiasDisponibles)
-            .WithMany(d => d.Acompanantes)
-            .UsingEntity<AcompananteDiasDisponible>(
-                j => j.HasOne(adh => adh.DiaDisponible).WithMany(),
-                j => j.HasOne(adh => adh.Acompanante).WithMany()
-            );
-
-
+            .HasMany(a => a.DisponibilidadesSemanales)
+            .WithOne(ds => ds.Acompanante)
+            .HasForeignKey(ds => ds.AcompananteId)
+            .OnDelete(DeleteBehavior.Restrict);
+      
         modelBuilder.Entity<Acompanante>()
             .HasMany(a => a.Especialidades)
             .WithMany(e => e.Acompanantes)

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TEAyudo_JT.Clases
 {
-    public class DiaDisponible
+    public class DisponibilidadSemanal
     {
-        public int DiaDisponibleId { get; set; }
+        public int DisponibilidadSemanalId { get; set; }
+        public int AcompananteId { get; set; }
         public bool Lunes { get; set; }
         public bool Martes { get; set; }
         public bool Miercoles { get; set; }
@@ -16,7 +17,10 @@ namespace TEAyudo_JT.Clases
         public bool Viernes { get; set; }
         public bool Sabado { get; set; }
         public bool Domingo { get; set; }
-        public ICollection<Acompanante> Acompanantes { get; set; }
+        public DateTime HorarioInicio { get; set; }
+        public DateTime HorarioFin { get; set; }
+
+        public Acompanante Acompanante { get; set; }
     }
 
 }
