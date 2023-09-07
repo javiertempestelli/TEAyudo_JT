@@ -6,7 +6,7 @@
         public DateTime HorarioInicio { get; set; }
         public DateTime HorarioFin { get; set; }
 
-        public int AcompananteId { get; set; }
+ //       public int AcompananteId { get; set; }
         public ICollection<Acompanante> Acompanantes { get; set; }
 
     }
