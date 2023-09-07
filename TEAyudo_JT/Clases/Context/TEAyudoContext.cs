@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TEAyudo_JT.Clases;
 
 namespace TEAyudo_JT;
 public class TEAyudoContext :DbContext
@@ -53,6 +54,14 @@ public class TEAyudoContext :DbContext
             .HasForeignKey<Acompanante>(t => t.EstadoUsuarioId);
 
 
+        modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.Especialidades)
+            .WithMany(e => e.Acompanantes)
+            .UsingEntity<AcompananteEspecialidad>(
+                j => j.HasOne(ae => ae.Especialidad).WithMany().OnDelete(DeleteBehavior.Restrict),
+                j => j.HasOne(ae => ae.Acompanante).WithMany().OnDelete(DeleteBehavior.Restrict)
+            );
+
         //RELACION UNO A MUCHOS
         //modelBuilder.Entity<ENTIDAD1>()
         //.HasMany(a => a.ENTIDAD2S)
@@ -78,6 +87,15 @@ public class TEAyudoContext :DbContext
                 j => j.HasOne(adh => adh.DisponibilidadHoraria).WithMany(),
                 j => j.HasOne(adh => adh.Acompanante).WithMany()
             );
+
+        modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.DiasDisponibles)
+            .WithMany(d => d.Acompanantes)
+            .UsingEntity<AcompananteDiasDisponible>(
+                j => j.HasOne(adh => adh.DiaDisponible).WithMany(),
+                j => j.HasOne(adh => adh.Acompanante).WithMany()
+            );
+
 
         modelBuilder.Entity<Acompanante>()
             .HasMany(a => a.Especialidades)

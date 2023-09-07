@@ -7,7 +7,6 @@ public class Tutor
 {
     public int TutorId { get; set; }
     public int UsuarioId { get; set; }
-    public int PacienteId { get; set; }
     public ICollection<Paciente> Pacientes { get; set; }
     public string CertUniDisc { get; set; }
     //public string Nombre { get; set; }
