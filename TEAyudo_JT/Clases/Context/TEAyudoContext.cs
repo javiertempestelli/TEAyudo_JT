@@ -31,6 +31,15 @@ public class TEAyudoContext :DbContext
             .HasForeignKey(p => p.TutorId)
             .OnDelete(DeleteBehavior.Restrict); // Configura ON DELETE NO ACTION
 
+        modelBuilder.Entity<Tutor>()
+            .HasOne(t => t.Usuario)
+            .WithOne()
+            .HasForeignKey<Tutor>(t => t.UsuarioId);
+
+        modelBuilder.Entity<Acompanante>()
+            .HasOne(a => a.Usuario)
+            .WithOne()
+            .HasForeignKey<Acompanante>(a => a.UsuarioId);
 
         //      RELACION UNO A UNO
         //modelBuilder.Entity<ENTIDAD1>()
