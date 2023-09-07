@@ -316,8 +316,8 @@ namespace TEAyudo_JT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Edad")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -349,6 +349,13 @@ namespace TEAyudo_JT.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("EstadoPropuestaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InfoAdicional")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Monto")
                         .HasColumnType("int");
 
                     b.Property<int>("TutorId")

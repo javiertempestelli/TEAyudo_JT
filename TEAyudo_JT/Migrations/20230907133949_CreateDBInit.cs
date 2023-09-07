@@ -281,7 +281,7 @@ namespace TEAyudo_JT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Edad = table.Column<int>(type: "int", nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DiagnosticoTEA = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sexo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TutorId = table.Column<int>(type: "int", nullable: false)
@@ -305,6 +305,8 @@ namespace TEAyudo_JT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TutorId = table.Column<int>(type: "int", nullable: false),
                     AcompananteId = table.Column<int>(type: "int", nullable: false),
+                    InfoAdicional = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Monto = table.Column<int>(type: "int", nullable: false),
                     EstadoPropuestaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
