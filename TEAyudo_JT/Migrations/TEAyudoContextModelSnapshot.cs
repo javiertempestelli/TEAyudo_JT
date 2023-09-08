@@ -113,32 +113,14 @@ namespace TEAyudo_JT.Migrations
                     b.Property<int>("AcompananteId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Domingo")
-                        .HasColumnType("bit");
+                    b.Property<int>("DiaSemana")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("HorarioFin")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("HorarioInicio")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Jueves")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Lunes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Martes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Miercoles")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Sabado")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Viernes")
-                        .HasColumnType("bit");
 
                     b.HasKey("DisponibilidadSemanalId");
 

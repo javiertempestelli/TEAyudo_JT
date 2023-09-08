@@ -198,13 +198,7 @@ namespace TEAyudo_JT.Migrations
                     DisponibilidadSemanalId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AcompananteId = table.Column<int>(type: "int", nullable: false),
-                    Lunes = table.Column<bool>(type: "bit", nullable: false),
-                    Martes = table.Column<bool>(type: "bit", nullable: false),
-                    Miercoles = table.Column<bool>(type: "bit", nullable: false),
-                    Jueves = table.Column<bool>(type: "bit", nullable: false),
-                    Viernes = table.Column<bool>(type: "bit", nullable: false),
-                    Sabado = table.Column<bool>(type: "bit", nullable: false),
-                    Domingo = table.Column<bool>(type: "bit", nullable: false),
+                    DiaSemana = table.Column<int>(type: "int", nullable: false),
                     HorarioInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HorarioFin = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

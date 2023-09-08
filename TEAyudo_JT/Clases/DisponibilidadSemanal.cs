@@ -10,13 +10,7 @@ namespace TEAyudo_JT.Clases
     {
         public int DisponibilidadSemanalId { get; set; }
         public int AcompananteId { get; set; }
-        public bool Lunes { get; set; }
-        public bool Martes { get; set; }
-        public bool Miercoles { get; set; }
-        public bool Jueves { get; set; }
-        public bool Viernes { get; set; }
-        public bool Sabado { get; set; }
-        public bool Domingo { get; set; }
+        public int DiaSemana { get; set; } 
         public DateTime HorarioInicio { get; set; }
         public DateTime HorarioFin { get; set; }
 
