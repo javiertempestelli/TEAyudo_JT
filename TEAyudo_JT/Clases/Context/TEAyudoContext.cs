@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TEAyudo_JT.Clases;
 
 namespace TEAyudo_JT;
 public class TEAyudoContext :DbContext
 {
     public DbSet<Acompanante> Acompanantes { get; set; }
-    public DbSet<DisponibilidadHoraria> DisponibilidadHorarias { get; set; }
     public DbSet<Especialidad> Especialidades { get; set; }
     public DbSet<EstadoPropuesta> EstadoPostulaciones { get; set; }
     public DbSet<ObraSocial> ObrasSociales { get; set; }
@@ -31,6 +31,15 @@ public class TEAyudoContext :DbContext
             .HasForeignKey(p => p.TutorId)
             .OnDelete(DeleteBehavior.Restrict); // Configura ON DELETE NO ACTION
 
+        modelBuilder.Entity<Tutor>()
+            .HasOne(t => t.Usuario)
+            .WithOne()
+            .HasForeignKey<Tutor>(t => t.UsuarioId);
+
+        modelBuilder.Entity<Acompanante>()
+            .HasOne(a => a.Usuario)
+            .WithOne()
+            .HasForeignKey<Acompanante>(a => a.UsuarioId);
 
         //      RELACION UNO A UNO
         //modelBuilder.Entity<ENTIDAD1>()
@@ -43,6 +52,14 @@ public class TEAyudoContext :DbContext
             .WithOne(t => t.EstadoUsuario)
             .HasForeignKey<Acompanante>(t => t.EstadoUsuarioId);
 
+
+        modelBuilder.Entity<Acompanante>()
+            .HasMany(a => a.Especialidades)
+            .WithMany(e => e.Acompanantes)
+            .UsingEntity<AcompananteEspecialidad>(
+                j => j.HasOne(ae => ae.Especialidad).WithMany().OnDelete(DeleteBehavior.Restrict),
+                j => j.HasOne(ae => ae.Acompanante).WithMany().OnDelete(DeleteBehavior.Restrict)
+            );
 
         //RELACION UNO A MUCHOS
         //modelBuilder.Entity<ENTIDAD1>()
@@ -63,13 +80,11 @@ public class TEAyudoContext :DbContext
         //j => j.HasOne(ic => ic.ENTIDAD1S).WithMany()
 
         modelBuilder.Entity<Acompanante>()
-            .HasMany(a => a.DisponibilidadesHorarias)
-            .WithMany(d => d.Acompanantes)
-            .UsingEntity<AcompananteDisponibilidadHoraria>(
-                j => j.HasOne(adh => adh.DisponibilidadHoraria).WithMany(),
-                j => j.HasOne(adh => adh.Acompanante).WithMany()
-            );
-
+            .HasMany(a => a.DisponibilidadesSemanales)
+            .WithOne(ds => ds.Acompanante)
+            .HasForeignKey(ds => ds.AcompananteId)
+            .OnDelete(DeleteBehavior.Restrict);
+      
         modelBuilder.Entity<Acompanante>()
             .HasMany(a => a.Especialidades)
             .WithMany(e => e.Acompanantes)

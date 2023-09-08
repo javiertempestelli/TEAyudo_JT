@@ -14,6 +14,10 @@ namespace TEAyudo_JT
         public Tutor Tutor { get; set; }
 
         public int AcompananteId { get; set; }
+
+        public string InfoAdicional { get; set; }   
+
+        public int Monto { get; set; }
         public Acompanante Acompanante { get; set; }
 //        public int DisponibilidadHorariaId { get; set; }
 //        public DisponibilidadHoraria Disponibilidad { get; set; }

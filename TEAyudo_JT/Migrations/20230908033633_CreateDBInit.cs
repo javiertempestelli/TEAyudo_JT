@@ -6,34 +6,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TEAyudo_JT.Migrations
 {
     /// <inheritdoc />
-    public partial class CrearDB_TEAyudo_Init : Migration
+    public partial class CreateDBInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "DisponibilidadHorarias",
-                columns: table => new
-                {
-                    DisponibilidadHorariaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HorarioInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HorarioFin = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AcompananteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DisponibilidadHorarias", x => x.DisponibilidadHorariaId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Especialidades",
                 columns: table => new
                 {
                     EspecialidadId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AcompananteId = table.Column<int>(type: "int", nullable: false)
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,8 +30,7 @@ namespace TEAyudo_JT.Migrations
                 {
                     EstadoPropuestaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PropuestaId = table.Column<int>(type: "int", nullable: false)
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,12 +57,30 @@ namespace TEAyudo_JT.Migrations
                     ObraSocialId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AcompananteId = table.Column<int>(type: "int", nullable: false)
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ObrasSociales", x => x.ObraSocialId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Usuario",
+                columns: table => new
+                {
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FotoPerfil = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Domicilio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechanNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuario", x => x.UsuarioId);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,21 +89,15 @@ namespace TEAyudo_JT.Migrations
                 {
                     AcompananteId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FotoPerfil = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Domicilio = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
                     ZonaLaboral = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Edad = table.Column<int>(type: "int", nullable: false),
                     EstadoUsuarioId = table.Column<int>(type: "int", nullable: false),
                     ObraSocialId = table.Column<int>(type: "int", nullable: false),
                     Contacto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Documentacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EspecialidadId = table.Column<int>(type: "int", nullable: false),
                     Experiencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisponibilidadHorariaId = table.Column<int>(type: "int", nullable: false)
+                    DisponibilidadSemanalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,6 +108,12 @@ namespace TEAyudo_JT.Migrations
                         principalTable: "EstadoUsuario",
                         principalColumn: "EstadoUsuarioId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Acompanantes_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "UsuarioId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,15 +122,8 @@ namespace TEAyudo_JT.Migrations
                 {
                     TutorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PacienteId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
                     CertUniDisc = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FotoPerfil = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Domicilio = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Edad = table.Column<int>(type: "int", nullable: false),
                     EstadoUsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -141,29 +135,11 @@ namespace TEAyudo_JT.Migrations
                         principalTable: "EstadoUsuario",
                         principalColumn: "EstadoUsuarioId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AcompananteDisponibilidadHoraria",
-                columns: table => new
-                {
-                    AcompananteId = table.Column<int>(type: "int", nullable: false),
-                    DisponibilidadHorariaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AcompananteDisponibilidadHoraria", x => new { x.AcompananteId, x.DisponibilidadHorariaId });
                     table.ForeignKey(
-                        name: "FK_AcompananteDisponibilidadHoraria_Acompanantes_AcompananteId",
-                        column: x => x.AcompananteId,
-                        principalTable: "Acompanantes",
-                        principalColumn: "AcompananteId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AcompananteDisponibilidadHoraria_DisponibilidadHorarias_DisponibilidadHorariaId",
-                        column: x => x.DisponibilidadHorariaId,
-                        principalTable: "DisponibilidadHorarias",
-                        principalColumn: "DisponibilidadHorariaId",
+                        name: "FK_Tutores_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "UsuarioId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -182,13 +158,13 @@ namespace TEAyudo_JT.Migrations
                         column: x => x.AcompananteId,
                         principalTable: "Acompanantes",
                         principalColumn: "AcompananteId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AcompananteEspecialidad_Especialidades_EspecialidadId",
                         column: x => x.EspecialidadId,
                         principalTable: "Especialidades",
                         principalColumn: "EspecialidadId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +192,28 @@ namespace TEAyudo_JT.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DisponibilidadSemanal",
+                columns: table => new
+                {
+                    DisponibilidadSemanalId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AcompananteId = table.Column<int>(type: "int", nullable: false),
+                    DiaSemana = table.Column<int>(type: "int", nullable: false),
+                    HorarioInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HorarioFin = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DisponibilidadSemanal", x => x.DisponibilidadSemanalId);
+                    table.ForeignKey(
+                        name: "FK_DisponibilidadSemanal_Acompanantes_AcompananteId",
+                        column: x => x.AcompananteId,
+                        principalTable: "Acompanantes",
+                        principalColumn: "AcompananteId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pacientes",
                 columns: table => new
                 {
@@ -223,7 +221,7 @@ namespace TEAyudo_JT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Edad = table.Column<int>(type: "int", nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DiagnosticoTEA = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sexo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TutorId = table.Column<int>(type: "int", nullable: false)
@@ -247,6 +245,8 @@ namespace TEAyudo_JT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TutorId = table.Column<int>(type: "int", nullable: false),
                     AcompananteId = table.Column<int>(type: "int", nullable: false),
+                    InfoAdicional = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Monto = table.Column<int>(type: "int", nullable: false),
                     EstadoPropuestaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -273,11 +273,6 @@ namespace TEAyudo_JT.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AcompananteDisponibilidadHoraria_DisponibilidadHorariaId",
-                table: "AcompananteDisponibilidadHoraria",
-                column: "DisponibilidadHorariaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AcompananteEspecialidad_EspecialidadId",
                 table: "AcompananteEspecialidad",
                 column: "EspecialidadId");
@@ -292,6 +287,17 @@ namespace TEAyudo_JT.Migrations
                 table: "Acompanantes",
                 column: "EstadoUsuarioId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Acompanantes_UsuarioId",
+                table: "Acompanantes",
+                column: "UsuarioId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DisponibilidadSemanal_AcompananteId",
+                table: "DisponibilidadSemanal",
+                column: "AcompananteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pacientes_TutorId",
@@ -318,14 +324,17 @@ namespace TEAyudo_JT.Migrations
                 table: "Tutores",
                 column: "EstadoUsuarioId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tutores_UsuarioId",
+                table: "Tutores",
+                column: "UsuarioId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AcompananteDisponibilidadHoraria");
-
             migrationBuilder.DropTable(
                 name: "AcompananteEspecialidad");
 
@@ -333,13 +342,13 @@ namespace TEAyudo_JT.Migrations
                 name: "AcompananteObraSocial");
 
             migrationBuilder.DropTable(
+                name: "DisponibilidadSemanal");
+
+            migrationBuilder.DropTable(
                 name: "Pacientes");
 
             migrationBuilder.DropTable(
                 name: "Propuesta");
-
-            migrationBuilder.DropTable(
-                name: "DisponibilidadHorarias");
 
             migrationBuilder.DropTable(
                 name: "Especialidades");
@@ -358,6 +367,9 @@ namespace TEAyudo_JT.Migrations
 
             migrationBuilder.DropTable(
                 name: "EstadoUsuario");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
         }
     }
 }
